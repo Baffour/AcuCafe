@@ -26,7 +26,7 @@ namespace AcuCafe
                 throw new ArgumentException(string.Format(Constants.InvalidTypeExceptionMessage, type));
             }
 
-            IEnumerable<Topping> invalidToppings = toppings.Except(drink.AllowedToppings());
+            IEnumerable<Topping> invalidToppings = toppings.Except(drink.ValidToppings());
             if (invalidToppings.Any())
             {
                 var invalidToppingMessage = string.Format(Constants.InvalidToppingExceptionMessage, type, invalidToppings.First());
@@ -35,8 +35,7 @@ namespace AcuCafe
 
             try
             {
-                drink.HasMilk = toppings.Contains(Topping.Milk);
-                drink.HasSugar = toppings.Contains(Topping.Sugar);
+                drink.Toppings = toppings;
                 drink.Prepare();
             }
             catch (Exception ex)
