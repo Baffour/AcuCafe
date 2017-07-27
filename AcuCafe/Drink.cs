@@ -14,13 +14,8 @@ namespace AcuCafe
             {Topping.Sugar,0.5 }
         };
 
-        public const double MilkCost = 0.5;
-        public const double SugarCost = 0.5;
 
-        public virtual Topping[] ValidToppings()
-        {
-            return Enum.GetValues(typeof(Topping)) as Topping[];
-        }
+        public abstract Topping[] ValidToppings();
 
         public Topping[] Toppings { get; set; }
 
@@ -44,7 +39,6 @@ namespace AcuCafe
                 message += " " + topping.ToString();
             }
 
-
             this.Status = message;
         }
     }
@@ -53,6 +47,11 @@ namespace AcuCafe
     {
         public override string Description => "Expresso";
         public override double BaseCost => 1.8;
+
+        public override Topping[] ValidToppings()
+        {
+            return new Topping[] { Topping.Sugar, Topping.Milk };
+        }
     }
 
     public class Tea : Drink
@@ -60,6 +59,10 @@ namespace AcuCafe
         public override string Description => "Hot tea";
         public override double BaseCost => 1;
 
+        public override Topping[] ValidToppings()
+        {
+            return new Topping[] { Topping.Sugar, Topping.Milk };
+        }
     }
 
     public class IceTea : Drink
@@ -69,7 +72,7 @@ namespace AcuCafe
 
         public override Topping[] ValidToppings()
         {
-            return base.ValidToppings().Except(new Topping[] { Topping.Milk }).ToArray();
+            return new Topping[] { Topping.Sugar };
         }
     }
 
