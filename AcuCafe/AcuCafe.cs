@@ -25,7 +25,7 @@ namespace AcuCafe
                 throw new ArgumentException(string.Format(Constants.InvalidTypeExceptionMessage, type));
             }
 
-            IEnumerable<Topping> invalidToppings = toppings.Except(drink.ValidToppings());
+            IEnumerable<Topping> invalidToppings = toppings.Except(drink.ValidToppings);
             if (invalidToppings.Any())
             {
                 var invalidToppingMessage = string.Format(Constants.InvalidToppingExceptionMessage, type, invalidToppings.First());
