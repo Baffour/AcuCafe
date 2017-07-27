@@ -8,10 +8,11 @@ namespace AcuCafe
 {
     public abstract class Drink
     {
-        public Dictionary<Topping, double> ToppingCost = new Dictionary<Topping, double>()
+        public Dictionary<Topping, decimal> ToppingCost = new Dictionary<Topping, decimal>()
         {
-            {Topping.Milk,0.5 },
-            {Topping.Sugar,0.5 }
+            {Topping.Milk,0.5m },
+            {Topping.Sugar,0.5m },
+            {Topping.Chocolate,0.6m }
         };
 
 
@@ -23,9 +24,9 @@ namespace AcuCafe
 
         public abstract string Description { get; }
 
-        public abstract double BaseCost { get; }
+        public abstract decimal BaseCost { get; }
 
-        public double Cost()
+        public decimal Cost()
         {
             return this.BaseCost + Toppings.Select(t => ToppingCost[t]).Sum();
         }
@@ -46,15 +47,15 @@ namespace AcuCafe
     public class Expresso : Drink
     {
         public override string Description => "Expresso";
-        public override double BaseCost => 1.8;
-        public override Topping[] ValidToppings => new Topping[] { Topping.Sugar, Topping.Milk };
+        public override decimal BaseCost => 1.8m;
+        public override Topping[] ValidToppings => new Topping[] { Topping.Sugar, Topping.Milk, Topping.Chocolate };
 
     }
 
     public class Tea : Drink
     {
         public override string Description => "Hot tea";
-        public override double BaseCost => 1;
+        public override decimal BaseCost => 1;
 
         public override Topping[] ValidToppings => new Topping[] { Topping.Sugar, Topping.Milk };
 
@@ -63,7 +64,7 @@ namespace AcuCafe
     public class IceTea : Drink
     {
         public override string Description => "Ice tea";
-        public override double BaseCost => 1.5;
+        public override decimal BaseCost => 1.5m;
 
         public override Topping[] ValidToppings => new Topping[] { Topping.Sugar };
 
@@ -72,6 +73,7 @@ namespace AcuCafe
     public enum Topping
     {
         Sugar,
-        Milk
+        Milk,
+        Chocolate
     }
 }
