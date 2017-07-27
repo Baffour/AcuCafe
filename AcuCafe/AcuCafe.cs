@@ -20,7 +20,7 @@ namespace AcuCafe
             {
                 drink.HasMilk = hasMilk;
                 drink.HasSugar = hasSugar;
-                drink.Prepare(type);
+                drink.Prepare();
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace AcuCafe
             return 0;
         }
 
-        public void Prepare(string drink)
+        public void Prepare()
         {
             string message = "We are preparing the following drink for you: " + Description;
             if (HasMilk)
