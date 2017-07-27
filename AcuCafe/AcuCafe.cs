@@ -6,15 +6,23 @@ namespace AcuCafe
     {
         public static Drink OrderDrink(string type, bool hasMilk, bool hasSugar)
         {
-            Drink drink = new Drink();
+            Drink drink;
             if (type == "Expresso")
             {
                 drink = new Expresso();
             }
             else if (type == "HotTea")
+            {
                 drink = new Tea();
+            }
             else if (type == "IceTea")
+            {
                 drink = new IceTea();
+            }
+            else
+            {
+                throw new ArgumentException($"'{type}' is not an allowable drink type", nameof(type));
+            }
 
             try
             {
@@ -32,7 +40,7 @@ namespace AcuCafe
         }
     }
 
-    public class Drink
+    public abstract class Drink
     {
         public const double MilkCost = 0.5;
         public const double SugarCost = 0.5;
@@ -42,9 +50,18 @@ namespace AcuCafe
         public bool HasSugar { get; set; }
         public string Description { get; }
 
+        public abstract double BaseCost { get; }
+
         public double Cost()
         {
-            return 0;
+            var cost = this.BaseCost;
+            if (HasMilk)
+                cost += MilkCost;
+
+            if (HasSugar)
+                cost += SugarCost;
+
+            return cost;
         }
 
         public void Prepare()
@@ -71,18 +88,7 @@ namespace AcuCafe
             get { return "Expresso"; }
         }
 
-        public new double Cost()
-        {
-            double cost = 1.8;
-
-            if (HasMilk)
-                cost += MilkCost;
-
-            if (HasSugar)
-                cost += SugarCost;
-
-            return cost;
-        }
+        public override double BaseCost { get { return 1.8; } }
     }
 
     public class Tea : Drink
@@ -92,18 +98,8 @@ namespace AcuCafe
             get { return "Hot tea"; }
         }
 
-        public new double Cost()
-        {
-            double cost = 1;
+        public override double BaseCost { get { return 1; } }
 
-            if (HasMilk)
-                cost += MilkCost;
-
-            if (HasSugar)
-                cost += SugarCost;
-
-            return cost;
-        }
     }
 
     public class IceTea : Drink
@@ -113,17 +109,7 @@ namespace AcuCafe
             get { return "Ice tea"; }
         }
 
-        public new double Cost()
-        {
-            double cost = 1.5;
+        public override double BaseCost { get { return 1.5; } }
 
-            if (HasMilk)
-                cost += MilkCost;
-
-            if (HasSugar)
-                cost += SugarCost;
-
-            return cost;
-        }
     }
 }
