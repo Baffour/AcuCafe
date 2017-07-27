@@ -6,20 +6,19 @@ namespace AcuCafe
 {
     public class AcuCafe
     {
+        public static Dictionary<string, Func<Drink>> DrinkConstructors = new Dictionary<string, Func<Drink>>
+        {
+            { "Expresso", () => new Expresso()  },
+            { "HotTea", () => new Tea()  },
+            { "IceTea", () => new IceTea()  },
+        };
         public static Drink OrderDrink(string type, Topping[] toppings)
         {
             Drink drink;
-            if (type == "Expresso")
+            if (DrinkConstructors.ContainsKey(type))
             {
-                drink = new Expresso();
-            }
-            else if (type == "HotTea")
-            {
-                drink = new Tea();
-            }
-            else if (type == "IceTea")
-            {
-                drink = new IceTea();
+                var construct = DrinkConstructors[type];
+                drink = construct();
             }
             else
             {
