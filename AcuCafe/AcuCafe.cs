@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AcuCafe
 {
     public class AcuCafe
     {
-        public static Drink OrderDrink(string type, bool hasMilk, bool hasSugar)
+        public static Drink OrderDrink(string type, Topping[] toppings)
         {
             Drink drink;
             if (type == "Expresso")
@@ -24,10 +26,17 @@ namespace AcuCafe
                 throw new ArgumentException(string.Format(Constants.InvalidTypeExceptionMessage, type));
             }
 
+            IEnumerable<Topping> invalidToppings = toppings.Except(drink.AllowedToppings());
+            if (invalidToppings.Any())
+            {
+                var invalidToppingMessage = string.Format(Constants.InvalidToppingExceptionMessage, type, invalidToppings.First());
+                throw new InvalidOperationException(invalidToppingMessage);
+            }
+
             try
             {
-                drink.HasMilk = hasMilk;
-                drink.HasSugar = hasSugar;
+                drink.HasMilk = toppings.Contains(Topping.Milk);
+                drink.HasSugar = toppings.Contains(Topping.Sugar);
                 drink.Prepare();
             }
             catch (Exception ex)

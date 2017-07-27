@@ -11,6 +11,10 @@ namespace AcuCafe
         public const double MilkCost = 0.5;
         public const double SugarCost = 0.5;
 
+        public virtual Topping[] AllowedToppings()
+        {
+            return Enum.GetValues(typeof(Topping)) as Topping [];
+        }
         public bool HasMilk { get; set; }
 
         public bool HasSugar { get; set; }
@@ -65,5 +69,15 @@ namespace AcuCafe
         public override string Description => "Ice tea";
         public override double BaseCost => 1.5;
 
+        public override Topping[] AllowedToppings()
+        {
+            return base.AllowedToppings().Except(new Topping[] { Topping.Milk }).ToArray();
+        }
+    }
+
+    public enum Topping
+    {
+        Sugar,
+        Milk
     }
 }
