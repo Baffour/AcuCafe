@@ -15,10 +15,19 @@ namespace AcuCafeTests
         [TestCase("HotTea", true, true, 2.0)]
         [TestCase("IceTea", false, false, 1.5)]
         [TestCase("IceTea", false, true, 2.0)]
-        public void TestCosts(string type, bool hasMilk, bool hasSugar,double expectedCost)
+        public void TestCosts(string type, bool hasMilk, bool hasSugar, double expectedCost)
         {
             var drink = AcuCafe.AcuCafe.OrderDrink(type, hasMilk, hasSugar);
             Assert.AreEqual(expectedCost, drink.Cost());
+        }
+        [TestCase]
+        public void TestInvalidType()
+        {
+            var invalidType = "InvalidType";
+            TestDelegate orderDrink = () => AcuCafe.AcuCafe.OrderDrink(invalidType, false, false);
+            var exception = Assert.Catch<ArgumentException>(orderDrink);
+            var expectedMessage = string.Format(Constants.InvalidTypeExceptionMessage, invalidType);
+            Assert.AreEqual(expectedMessage, exception.Message);
         }
     }
 }

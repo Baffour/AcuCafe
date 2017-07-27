@@ -21,7 +21,7 @@ namespace AcuCafe
             }
             else
             {
-                throw new ArgumentException($"'{type}' is not an allowable drink type", nameof(type));
+                throw new ArgumentException(string.Format(Constants.InvalidTypeExceptionMessage, type));
             }
 
             try
