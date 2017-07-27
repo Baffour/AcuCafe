@@ -19,14 +19,13 @@ namespace AcuCafe
 
         public virtual Topping[] ValidToppings()
         {
-            return Enum.GetValues(typeof(Topping)) as Topping [];
+            return Enum.GetValues(typeof(Topping)) as Topping[];
         }
 
         public Topping[] Toppings { get; set; }
 
-        //public bool HasMilk { get; set; }
+        public string Status { get; set; }
 
-        //public bool HasSugar { get; set; }
         public abstract string Description { get; }
 
         public abstract double BaseCost { get; }
@@ -39,14 +38,14 @@ namespace AcuCafe
         public void Prepare()
         {
             string message = $"We are preparing the following drink for you: {Description}";
-            foreach(var topping in this.ValidToppings())
+            foreach (var topping in this.ValidToppings())
             {
                 message += this.Toppings.Contains(topping) ? " with" : " without";
                 message += " " + topping.ToString();
             }
 
 
-            Console.WriteLine(message);
+            this.Status = message;
         }
     }
 
@@ -68,9 +67,9 @@ namespace AcuCafe
         public override string Description => "Ice tea";
         public override double BaseCost => 1.5;
 
-                public override Topping[] ValidToppings()
+        public override Topping[] ValidToppings()
         {
-           return base.ValidToppings().Except(new Topping[] { Topping.Milk }).ToArray();
+            return base.ValidToppings().Except(new Topping[] { Topping.Milk }).ToArray();
         }
     }
 
