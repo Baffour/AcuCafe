@@ -39,8 +39,7 @@ namespace AcuCafe
             }
             catch (Exception ex)
             {
-                Console.WriteLine("We are unable to prepare your drink.");
-                System.IO.File.WriteAllText(@"c:\Error.txt", ex.ToString());
+                throw new Exception("We are unable to prepare your drink.", ex);
             }
 
             return drink;
